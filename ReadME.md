@@ -1,5 +1,5 @@
-Programme: MSc Cyber Security and Forensic Information Technology
-School: University of Portsmouth | School of Computing
-Project Title: Detecting phishing attacks using supervised machine learning
-Year: 2023/24
+<b>Programme:</b> MSc Cyber Security and Forensic Information Technology</br>
+<b>School:</b> University of Portsmouth | School of Computing </br>
+<b>Project Title:</b> Detecting phishing attacks using supervised machine learning </br>
+<b>Year:</b> 2023/24
 
