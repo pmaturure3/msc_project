@@ -6,12 +6,12 @@
 <b>Supervisor:</b> Dr Asim Ali <br>
 <b>Student:</b> Perceval Maturure <br>
 <hr>
-Section 1
+<b>Section 1 </b>
 <hr>
 <b>Project Component 1: </b>Developed a Random Forest Supervised Machine Learning Model <br>
 <b>Technology: </b>Python3, Anaconda & Jupyter notebook <br>
 <hr>
-Section 2
+<b>Section 2 </b>
 <hr>
 <b>Project Component 2: </b> Phishing Detection System <br>
 <b>Technology: </b>Django 4, Python3, SQLite Database <br>
