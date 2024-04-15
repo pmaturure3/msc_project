@@ -6,11 +6,12 @@
 <b>Student:</b> Perceval Maturure <br>
 <hr>
 <b>Project component 1:</b> Supervised Machine Learning Model Development <br>
-<b>Technology:</b> Perceval Maturure <br>
+<b>Technology:</b>Python3, Anaconda & Jupyter notebook <br>
 <hr>
 <b>Project Component 2:</b> Phishing Detection System <br>
 <b>Technology:</b>Django 4, Python3, SQLite Database <br>
-<b>Instructions:</b>1. Clone repository from github <br>
-                    2. Activate virtual environment <br>
-                    3. Run Project locally <br>
+<b>Instructions:</b><br>1. Clone repository from github : git clone ... <br>
+                    2. Activate virtual environment : . bin/activte <br>
+                    3. Install project dependancies: pip3 install -r requirements.txt<br>
+                    4. Run Project locally : python3 manage.py runserver<br>
 <hr>
