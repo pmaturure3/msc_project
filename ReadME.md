@@ -6,7 +6,7 @@
 <b>Student:</b> Perceval Maturure <br>
 <hr>
 <b>Project Component 1: </b>Developed a Random Forest Supervised Machine Learning Model <br>
-<b>Technology:</b>Python3, Anaconda & Jupyter notebook <br>
+<b>Technology: </b>Python3, Anaconda & Jupyter notebook <br>
 <hr>
 <b>Project Component 2: </b> Phishing Detection System <br>
 <b>Technology: </b>Django 4, Python3, SQLite Database <br>
