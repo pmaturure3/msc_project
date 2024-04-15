@@ -6,6 +6,7 @@
 <b>Supervisor:</b> Dr Asim Ali <br>
 <b>Student:</b> Perceval Maturure <br>
 <hr>
+<hr>
 <b>Project Component 1: </b>Developed a Random Forest Supervised Machine Learning Model <br>
 <b>Technology: </b>Python3, Anaconda & Jupyter notebook <br>
 <hr>
