@@ -1,3 +1,7 @@
 asgiref==3.8.1
 Django==4.2.11
 sqlparse==0.5.0
+numpy
+django-crispy-forms
+joblib
+scikit-learn==1.2.2

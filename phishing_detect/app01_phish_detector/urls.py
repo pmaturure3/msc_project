@@ -3,5 +3,6 @@ from django.urls import path, include
 from app01_phish_detector import views 
 urlpatterns = [
     path('', views.index, name='index'),
-     path('about/', views.about, name='about'),
+    path('about/', views.about, name='about'),
+    path('predict/', views.predict, name='predict'),
 ]
