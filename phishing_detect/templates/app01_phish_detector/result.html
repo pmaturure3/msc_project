@@ -3,20 +3,35 @@
 
 {% block body_block %}
 
-<br>
 
-<div class="container">
-  <div class="row">
-      <div class="col">
+<div class="text-center">
+
+
     
       
 
-        <h1>Result</h1>
+        <h4>Pridiction Result</h4>
 
-The result is {{ans}}
+<!-- The result is {{ans}} -->
 
-      </div>
-  </div>
+{% if ans == 1 %}
+
+<div class="alert alert-danger" role="alert">
+  <h4 class="alert-heading">Phishing attack</h4>
+  <p>Do not click, the link is not safe to click
+  <p class="mb-0">.</p>
+</div>
+
+{% else %}
+<div class="alert alert-success" role="alert">
+  <h4 class="alert-heading">Normal link</h4>
+  <p>The link is safe to click
+  <p class="mb-0"></p>
+</div>
+
+{% endif %}
+
+
 </div>
 
 
