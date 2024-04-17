@@ -29,14 +29,6 @@
 
 
 <style>
-.footer {
-    position: fixed;
-    /* bottom: 0; */
-    width: 100%;
-   
-    
-    /* Add more styling for your footer */
-}
 
 .main_container_section{
 
@@ -47,17 +39,17 @@
 </style>
 <body>
    <div class="container top_logos">
-         <div class="row">
-            <div class="col-3 mt-0">
+            <div class="row">
+                        <div class="col-3 mt-0">
                 
                 <a class="navbar-brand" href="{% url 'index' %}">
                     <span  style="color: purple !important;">Phishing Dectection System |</span> 
                 </a> 
              
-            </div>
-            <div class="col-9 mt-1 text-left"> 
+                     </div>
+                <div class="col-9 mt-1 text-left"> 
 
-            </div>
+                </div>
         </div>   
                 
 
@@ -80,14 +72,18 @@
                         <li class="nav-item has-mega-menu" style="position:static;">
                             <a class="nav-link"  href="{% url 'index' %}" role="button" aria-haspopup="true" aria-expanded="false">Home</a>
                         </li>
+                   
                         <li class="nav-item has-mega-menu" style="position:static;">
-                            <a class="nav-link" href="{% url 'about' %}" role="button" aria-haspopup="true" aria-expanded="false">About</a>
+                            <a class="nav-link" href="{% url 'result' %}" role="button" aria-haspopup="true" aria-expanded="false">Result</a>
                         </li>
                         <li class="nav-item has-mega-menu" style="position:static;">
                             <a class="nav-link" href="#" role="button" aria-haspopup="true" aria-expanded="false">Registration</a>
                         </li>
                         <li class="nav-item has-mega-menu" style="position:static;">
                             <a class="nav-link" href="#" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
+                        </li>
+                        <li class="nav-item has-mega-menu" style="position:static;">
+                            <a class="nav-link" href="https://github.com/pmaturure3/msc_project" role="button" aria-haspopup="true" aria-expanded="false" target="_blank">GitHub</a>
                         </li>
                     </ul>
                 </div>
@@ -140,20 +136,17 @@
 
         </div>
 
+   
     </div>
 
-
-
-
-
     <hr>
-
-     <div class=""> 
-            <xsmall >
-                <span class="footer text-center">Copyright &copy; <a href="{% url 'index' %}" style="color:purple !important">Phishing Detection System</a> {% now "Y" %}
-                </span>
-                <xsmall>
-    </div> 
+<div>
+    <xsmall >
+        <span class="footer">Copyright &copy; <a href="{% url 'index' %}" style="color:purple !important">Phishing Detection System</a> {% now "Y" %}
+        </span>
+        <xsmall>
+          
+</div> 
 
 
     <!-- Optional JavaScript; choose one of the two! -->

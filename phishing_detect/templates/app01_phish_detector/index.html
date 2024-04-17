@@ -4,25 +4,66 @@
 {% block body_block %}
 
 
-<style>
-  .background-color {
-      background-color: #275daa; /* Your specified blue color */
-      color: white; /* High contrast text color */
-      padding: 20px; /* Optional padding for better spacing */
-      border-radius: 12px;
-  }
-</style>
 
-<br>
 
-<div class="container">
-  <div class="row">
-      <div class="col">
     
-          <p class="">Home Phishing Detection System.</p>
-      </div>
+ <div class="">
+
+        <form action="{% url 'result' %}">
+
+          {% csrf_token %}
+          <div class="form-group">
+            <h4>Result</h4>
+            <div class="row">
+         
+            <div class="col-sm-3">
+          Having anchor <input type="text" class="form-control" required name="01">
+          Entropy <input type="text" class="form-control" required name="02">
+          Having hyphen in subdomain <input type="text"class="form-control" required name="03">
+          Number of % in URL <input type="text" class="form-control" required name="04">
+          Having repeated digits in domain <input type="text" class="form-control" required name="05">
+          Number of digits in URl <input type="text" class="form-control" required name="06">
+          Having repeated digits in URl <input type="text" class="form-control" required name="07">
+          <br>
+     
+       </div>
+       <div class="col-sm-3">
+
+        Domain length <input type="text" class="form-control" required name="08">
+        Having digits in domain<input type="text"  class="form-control" required name="09">
+        URL length <input type="text"  class="form-control" required name="10">
+        Number of underline in URL <input type="text" class="form-control" required name="11">
+        Having path <input type="text" class="form-control" required name="12">
+        Number of dots in domain <input type="text" class="form-control" required name="13">
+        </div>
+
+        <div class="col-sm-3 text-center">
+<h4>Result</h4>
+
+          </div>
+
+          <div class="col-sm-3 text-center">
+            <h4>Dashboard</h4>
+  
+            
+
+        </div>
+         <!-- Field 4 <input type="text" required name="RI"><br><br>
+          <input type="text" required name="RI"><br><br> -->
+          <br><br>
+     <input type="submit"  name="" class="float-right" value="submit"> 
+
+         </div>
+
+         <div>
+        </form>
+
+
+
+
+
+ 
   </div>
-</div>
 
 
     

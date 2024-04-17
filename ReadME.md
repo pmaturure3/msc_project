@@ -16,3 +16,8 @@
                     3. Install project dependancies: pip3 install -r requirements.txt<br>
                     4. Run Project locally : python3 manage.py runserver<br>
 <hr>
+resources
+
+https://www.youtube.com/watch?v=rNhVBv0i4os
+
+https://www.youtube.com/watch?v=zcALUNZNBUk
