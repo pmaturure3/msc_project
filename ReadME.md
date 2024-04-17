@@ -16,8 +16,8 @@
                     3. Install project dependancies: pip3 install -r requirements.txt<br>
                     4. Run Project locally : python3 manage.py runserver<br>
 <hr>
-resources
+Django Resources
 
-https://www.youtube.com/watch?v=rNhVBv0i4os
+https://www.youtube.com/watch?v=uu98pqiUJU8&list=PLEsfXFp6DpzTD1BD1aWNxS2Ep06vIkaeW
 
-https://www.youtube.com/watch?v=zcALUNZNBUk
+https://www.youtube.com/watch?v=UmljXZIypDc&list=PL-osiE80TeTtoQCKZ03TU5fNfx2UY6U4p
