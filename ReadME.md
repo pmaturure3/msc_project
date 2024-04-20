@@ -12,9 +12,10 @@
 <b>Project Component 2: </b> Phishing Detection System <br>
 <b>Technology: </b>Django 4, Python3, SQLite Database <br>
 <b>Instructions on how to run the project locally:</b><br>1. Clone repository from github : git clone GitHub Url <br>
-                    2. Activate virtual environment : . bin/activte <br>
+                    2. Activate or create a new virtual environment : python3 -venv env then; cd env then: . bin/activte <br>
                     3. Install project dependancies: pip3 install -r requirements.txt<br>
                     4. Run Project locally : python3 manage.py runserver<br>
+                    5. Visit : 127.0.0.1:8000 from your browser<br>
 <hr>
 Django Resources
 
