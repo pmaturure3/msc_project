@@ -7,7 +7,7 @@
 | **School** | University of Portsmouth · School of Computing |
 | **Project Title** | Hybrid Machine Learning Model for Phishing Detection |
 | **Year** | 2023/24 |
-| **Supervisor** | Dr Asim, Alexander Gegov |
+| **Supervisor** | Dr Asim Ali, Assoc Prof Alexander Gegov |
 | **Student** | Perceval Maturure |
 | **IEEE Profile** | [IEEE Profile](https://ieeexplore.ieee.org/author/911008059731948) |
 | **Project URL** | [phish-detect-01.dev.tp-stack.co.uk](https://phish-detect-01.dev.tp-stack.co.uk) |
