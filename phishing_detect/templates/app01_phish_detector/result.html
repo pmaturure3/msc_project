@@ -10,30 +10,25 @@
     
       
 
-        <h4>Prediction Result</h4>
+<h4>Prediction Result</h4>
 
-<!-- The result is {{ans}} -->
+<p>Checked URL: {{url}}</p>
 
 {% if ans == 1 %}
 
-<div class="alert alert-danger" role="alert">
-  <h4 class="alert-heading">Phishing attack</h4>
-  <p>Do not click, the URL is not safe 
-  <p class="mb-0">.</p>
+<div class="alert alert-danger">
+<h4>Phishing attack</h4>
+<p>Do not click. The URL is not safe.</p>
 </div>
 
 {% else %}
-<div class="alert alert-success" role="alert">
-  <h4 class="alert-heading">Normal link</h4>
-  <p>The URL is genuine and safe to click
-  <p class="mb-0"></p>
+
+<div class="alert alert-success">
+<h4>Normal link</h4>
+<p>The URL appears to be safe.</p>
 </div>
 
 {% endif %}
-
-
-</div>
-
 
     
 

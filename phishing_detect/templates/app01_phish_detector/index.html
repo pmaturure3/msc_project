@@ -9,55 +9,26 @@
     
  <div class="">
 
-        <form action="{% url 'result' %}">
+     <form action="{% url 'result' %}">
+{% csrf_token %}
 
-          {% csrf_token %}
-          <div class="form-group">
-            <h4>Add features</h4>
-            <div class="row">
-         
-            <div class="col-sm-3">
-          Having anchor <input type="text" class="form-control" required name="01">
-          Entropy <input type="text" class="form-control" required name="02">
-          Having hyphen in subdomain <input type="text"class="form-control" required name="03">
-          Number of % in URL <input type="text" class="form-control" required name="04">
-          Having repeated digits in domain <input type="text" class="form-control" required name="05">
-          Number of digits in URl <input type="text" class="form-control" required name="06">
-          Having repeated digits in URl <input type="text" class="form-control" required name="07">
-          <br>
-     
-       </div>
-       <div class="col-sm-3">
+<div class="form-group">
 
-        Domain length <input type="text" class="form-control" required name="08">
-        Having digits in domain<input type="text"  class="form-control" required name="09">
-        URL length <input type="text"  class="form-control" required name="10">
-        Number of underline in URL <input type="text" class="form-control" required name="11">
-        Having path <input type="text" class="form-control" required name="12">
-        Number of dots in domain <input type="text" class="form-control" required name="13">
-        </div>
+<h4>Enter URL to check</h4>
 
-        <div class="col-sm-3 text-center">
-<!-- <h4>Result</h4> -->
+<input type="text"
+       class="form-control"
+       required
+       name="url"
+       placeholder="https://example.com">
 
-          </div>
+<br>
 
-          <div class="col-sm-3">
-            <h4>Dashboard</h4>
-  
-            
+<input type="submit" value="Check URL">
 
-        </div>
-         <!-- Field 4 <input type="text" required name="RI"><br><br>
-          <input type="text" required name="RI"><br><br> -->
-          <br><br>
-     <input type="submit"  name="" class="" value="Submit features"> 
+</div>
 
-         </div>
-
-         <div>
-        </form>
-
+</form>
 
 
 
