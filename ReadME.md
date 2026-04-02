@@ -45,7 +45,7 @@ A web application that allows users to submit a URL and receive a real-time pred
 
 ## Changelog
 
-### Version 2.0 – Hybrid Voting Classifier (All 41 Features)
+### Version 2.0 (04-2026) – Hybrid Voting Classifier (All 41 Features)
 
 #### 1. New Hybrid Voting Model (`Phishing_Hybrid_Voting.ipynb`)
 
