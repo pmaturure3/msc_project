@@ -1,14 +1,13 @@
 # Hybrid Machine Learning Model for Phishing Detection
 
 ---
-
 | | |
 |---|---|
 | **Programme** | MSc Cyber Security and Forensic Information Technology |
 | **School** | University of Portsmouth · School of Computing |
 | **Project Title** | Hybrid Machine Learning Model for Phishing Detection |
 | **Year** | 2023/24 |
-| **Supervisor** | Dr Asim Ali | Alexander Gegov |
+| **Supervisor** | Dr Asim, AliAlexander Gegov |
 | **Student** | Perceval Maturure |
 
 ---
