@@ -3,36 +3,25 @@
 
 {% block body_block %}
 
+<div class="container mt-4 text-center">
 
-<div class="text-center">
+    <h4>Prediction Result for:</h4>
+    <p><strong>{{ url }}</strong></p>
 
+    {% if ans == 1 %}
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Phishing URL Detected!</h4>
+            <p>Do not click this link. It is unsafe.</p>
+        </div>
+    {% else %}
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Safe URL</h4>
+            <p>This link appears to be genuine and safe to click.</p>
+        </div>
+    {% endif %}
 
-    
-      
+    <a href="{% url 'index' %}" class="btn btn-secondary mt-3">Check Another URL</a>
 
-<h4>Prediction Result</h4>
-
-<p>Checked URL: {{url}}</p>
-
-{% if ans == 1 %}
-
-<div class="alert alert-danger">
-<h4>Phishing attack</h4>
-<p>Do not click. The URL is not safe.</p>
 </div>
-
-{% else %}
-
-<div class="alert alert-success">
-<h4>Normal link</h4>
-<p>The URL appears to be safe.</p>
-</div>
-
-{% endif %}
-
-    
-
-
-
 
 {% endblock %}

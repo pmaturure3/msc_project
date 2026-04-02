@@ -3,43 +3,29 @@
 
 {% block body_block %}
 
+<!-- Flex container with top padding -->
+<div class="d-flex justify-content-center align-items-start" style="min-height: 80vh; padding-top: 80px;">
 
+    <div class="card p-4 shadow" style="min-width: 350px; max-width: 500px; width: 100%;">
+        <h2 class="text-center mb-4">Phishing URL Checker</h2>
 
+        <form action="{% url 'result' %}" method="get">
+            <div class="form-group">
+                <label for="urlInput">Enter URL to check</label>
+                <input type="url"
+                       id="urlInput"
+                       class="form-control"
+                       name="url"
+                       placeholder="https://example.com"
+                       required>
+            </div>
 
-    
- <div class="">
-
-     <form action="{% url 'result' %}">
-{% csrf_token %}
-
-<div class="form-group">
-
-<h4>Enter URL to check</h4>
-
-<input type="text"
-       class="form-control"
-       required
-       name="url"
-       placeholder="https://example.com">
-
-<br>
-
-<input type="submit" value="Check URL">
+            <div class="text-center mt-3">
+                <input type="submit" class="btn btn-primary" value="Check URL">
+            </div>
+        </form>
+    </div>
 
 </div>
-
-</form>
-
-
-
-
- 
-  </div>
-
-
-    
-
-
-
 
 {% endblock %}
