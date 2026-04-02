@@ -1,0 +1,35 @@
+phish-01.dev.mw-group.co.uk {
+    # Serve Django static files directly
+    handle_path /static/* {
+        root * /srv/staticfiles
+        file_server
+    }
+
+    # Serve Django media files directly
+    handle_path /media/* {
+        root * /srv/media
+        file_server
+    }
+
+    # Reverse proxy everything else to Django/Gunicorn
+    handle {
+        reverse_proxy web:8000
+    }
+
+    # Security headers
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy strict-origin-when-cross-origin
+        X-XSS-Protection "1; mode=block"
+    }
+
+    # Enable gzip compression
+    encode gzip
+
+    # Access logs
+    log {
+        output stdout
+        format console
+    }
+}
