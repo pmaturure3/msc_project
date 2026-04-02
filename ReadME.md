@@ -9,7 +9,7 @@
 | **Year** | 2023/24 |
 | **Supervisor** | Dr Asim Ali, Assoc Prof Alexander Gegov |
 | **Student** | Perceval Maturure |
-|**IEEE**| Maturure, P., Ali, A., & Gegov, A. (2024). **Hybrid machine learning model for phishing detection**. IEEE. [https://ieeexplore.ieee.org/document/10705257](https://ieeexplore.ieee.org/document/10705257) | 
+|**IEEE Conference Paper**| Maturure, P., Ali, A., & Gegov, A. (2024). **Hybrid machine learning model for phishing detection**. IEEE. [https://ieeexplore.ieee.org/document/10705257](https://ieeexplore.ieee.org/document/10705257) | 
 | **Project URL** | [phish-detect-01.dev.tp-stack.co.uk](https://phish-detect-01.dev.tp-stack.co.uk) |
 
 ---
