@@ -18,7 +18,7 @@
 
 Developed a Hybrid machine learning model for phishing detection.
 
-**Technology:** Python 3, Django, Docker, Docker Compose, Anaconda, Jupyter Notebook
+**Technology:** Python 3, Anaconda, Jupyter Notebook
 
 ---
 
@@ -26,7 +26,7 @@ Developed a Hybrid machine learning model for phishing detection.
 
 A web application that allows users to submit a URL and receive a real-time prediction of whether it is legitimate or phishing.
 
-**Technology:** Django 4, Python 3, SQLite Database
+**Technology:** Django 4, Python 3, Django, Docker, Docker Compose, SQLite Database
 
 ### How to Run Locally
 
