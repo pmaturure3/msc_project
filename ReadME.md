@@ -18,7 +18,7 @@
 
 Developed a Hybrid machine learning model for phishing detection.
 
-**Technology:** Python 3, Anaconda, Jupyter Notebook
+**Technology:** Python 3, Django, Docker, Docker Compose, Anaconda, Jupyter Notebook
 
 ---
 
