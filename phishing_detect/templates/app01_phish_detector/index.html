@@ -1,31 +1,56 @@
 {% extends "app01_phish_detector/base.html" %}
 {% load static %}
-
 {% block body_block %}
-
 <!-- Flex container with top padding -->
 <div class="d-flex justify-content-center align-items-start" style="min-height: 80vh; padding-top: 80px;">
+  <div class="card p-4 shadow" style="min-width: 350px; max-width: 500px; width: 100%;">
+    <h2 class="text-center mb-4">Phishing URL Checker</h2>
+    <form action="{% url 'result' %}" method="get">
+      <div class="form-group">
+        <label for="urlInput">Enter URL to check</label>
+        <input type="url"
+               id="urlInput"
+               class="form-control"
+               name="url"
+               placeholder="https://example.com"
+               required>
+      </div>
+      <div class="text-center mt-3">
+        <input type="submit" class="btn btn-primary" value="Check URL">
+      </div>
+    </form>
 
-    <div class="card p-4 shadow" style="min-width: 350px; max-width: 500px; width: 100%;">
-        <h2 class="text-center mb-4">Phishing URL Checker</h2>
+    <hr class="my-4">
 
-        <form action="{% url 'result' %}" method="get">
-            <div class="form-group">
-                <label for="urlInput">Enter URL to check</label>
-                <input type="url"
-                       id="urlInput"
-                       class="form-control"
-                       name="url"
-                       placeholder="https://example.com"
-                       required>
-            </div>
+    <div class="text-muted small">
+      <h6 class="fw-bold mb-2">Disclaimer</h6>
+      <p>
+        This tool is provided for <strong>educational and awareness purposes only</strong>.
+        It is designed to help users identify and understand phishing techniques in a
+        controlled environment.
+      </p>
+      <p>
+        This application should not be used for malicious purposes, including but not
+        limited to unauthorized access to systems, harvesting credentials, or targeting
+        individuals or organizations without explicit written consent.
+      </p>
 
-            <div class="text-center mt-3">
-                <input type="submit" class="btn btn-primary" value="Check URL">
-            </div>
-        </form>
+      <h6 class="fw-bold mb-2 mt-3">Data &amp; Model Accuracy</h6>
+      <p>
+        The underlying model has been trained on publicly available datasets. These
+        datasets may not reflect the latest phishing techniques, patterns, or threat
+        vectors. As a result, <strong>false positives and false negatives may occur</strong>.
+        Users are advised to regularly update the training data and retrain the model to
+        maintain detection accuracy. This tool should not be relied upon as the sole
+        method of phishing detection and should be used alongside other security measures.
+      </p>
+      <p class="mb-0">
+        The developers assume no responsibility for any misuse of this tool or for any
+        losses resulting from inaccurate classifications. By using this application, you
+        agree to use it solely for legitimate security awareness, training, and authorized
+        penetration testing purposes in compliance with all applicable laws and regulations.
+      </p>
     </div>
-
+  </div>
 </div>
-
 {% endblock %}
