@@ -38,13 +38,17 @@
         }
 
         .breadcrumb-bar {
-            background-color: #008CC8 !important;
+            background-color: purple !important;
+        }
+
+        .breadcrumb-bar a:hover {
+            color: #fff !important;
         }
 
         .top_logos .navbar-brand {
             white-space: normal;
             font-size: 1rem;
-            color: #003C71 !important;
+            color: purple !important;
             font-weight: 600;
         }
 
@@ -91,11 +95,11 @@
     </nav>
 
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mb-0 breadcrumb-bar">
+        <ol class="breadcrumb mb-0 breadcrumb-bar px-3 px-md-5">
             <li class="breadcrumb-item" aria-current="page">
-                <a href="/" class="text-white-50">Home</a>
+                <a href="/" style="color: #ddd;">Home</a>
                 <span class="text-white mx-1">&gt;</span>
-                <span class="text-white">{{ page_title }}</span>
+                <span class="text-white font-weight-bold">{{ page_title }}</span>
             </li>
         </ol>
     </nav>
