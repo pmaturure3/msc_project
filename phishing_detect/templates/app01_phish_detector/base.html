@@ -30,16 +30,22 @@
         }
 
         .nav_background {
-            background-color: #333;
+            background-color: #003C71;
         }
 
         .breadcrumb {
             border-radius: 0;
         }
 
+        .breadcrumb-bar {
+            background-color: #00264D !important;
+        }
+
         .top_logos .navbar-brand {
             white-space: normal;
             font-size: 1rem;
+            color: #003C71 !important;
+            font-weight: 600;
         }
 
         @media (max-width: 576px) {
@@ -53,24 +59,22 @@
 <body>
     <div class="container-fluid px-3 px-md-5 top_logos">
         <div class="row align-items-center py-2">
-            <div class="col-12 col-md-4 mt-0">
+            <div class="col-12">
                 <a class="navbar-brand" href="{% url 'index' %}">
-                    <span style="color: purple !important;">Phishing Detection System |</span>
+                    Phishing Detection System |
                 </a>
-            </div>
-            <div class="col-12 col-md-8 mt-1 text-left">
             </div>
         </div>
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-dark nav_background text-white">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark nav_background">
+        <div class="container-fluid px-3 px-md-5">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'index' %}">Feature Input</a>
                     </li>
@@ -89,7 +93,7 @@
     </nav>
 
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mb-0" style="background-color: purple !important;">
+        <ol class="breadcrumb mb-0 breadcrumb-bar">
             <li class="breadcrumb-item" aria-current="page">
                 <a href="/" class="text-white-50">Home</a>
                 <span class="text-white mx-1">&gt;</span>
@@ -107,7 +111,6 @@
         </div>
     </div>
 
-    <!-- jQuery and Bootstrap 4 Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
