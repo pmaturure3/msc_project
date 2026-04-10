@@ -31,15 +31,20 @@ A web application that allows users to submit a URL and receive a real-time pred
 ### How to Run Locally
 
 1. Clone the repository: `git clone <GitHub URL>`
-2. Create and activate a virtual environment:
-   ```
-   python3 -m venv env
-   cd env
-   source bin/activate
-   ```
-3. Install dependencies: `pip3 install -r requirements.txt`
-4. Run the server: `python3 manage.py runserver`
+2. cd into `\msc_project\`
+3. Build the images: `docker compose -f Docker-compose.yml build`
+4. Start the application: `docker compose -f Docker-compose.yml up -d`
 5. Visit `http://127.0.0.1:8000` in your browser
+
+## Useful Docker Commands
+
+- View running containers: `docker compose -f Docker-compose.yml ps`
+- View logs: `docker compose -f Docker-compose.yml logs -f`
+- Stop the application: `docker compose -f Docker-compose.yml down`
+- Rebuild and restart: `docker compose -f Docker-compose.yml up -d --build`
+- Remove all containers and volumes: `docker compose -f Docker-compose.yml down -v`
+- Restart a specific service: `docker compose -f Docker-compose.yml restart <service_name>`
+- Access a container shell: `docker compose -f Docker-compose.yml exec <service_name> bash`
 
 ---
 
