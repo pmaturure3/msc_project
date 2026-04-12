@@ -54,7 +54,7 @@
     <div class="container-fluid px-3 px-md-5 top_logos">
         <div class="row align-items-center py-2">
             <div class="col-12">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{% url 'index' %}">
                     Phishing Detection System |
                 </a>
             </div>
@@ -69,7 +69,7 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Feature Input</a>
+                    <a class="nav-link" href="{% url 'index' %}">Feature Input</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Registration</a>
@@ -87,7 +87,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mb-0 breadcrumb-bar px-3 px-md-5">
             <li class="breadcrumb-item" aria-current="page">
-                <a href="/" style="color: #ddd;">Home</a>
+                <a href="{% url 'index' %}" style="color: #ddd;">Home</a>
                 <span class="text-white mx-1">&gt;</span>
                 <span class="text-white font-weight-bold">Feature Input</span>
             </li>
@@ -102,7 +102,7 @@
                 <div class="d-flex justify-content-center align-items-start" style="min-height: 80vh; padding-top: 80px;">
                     <div class="card p-3 p-md-4 shadow mx-3" style="max-width: 800px; width: 100%;">
                         <h3 class="text-center mb-4" style="color: purple;">Phishing URL Checker</h3>
-                        <form action="#" method="get">
+                        <form action="{% url 'result' %}" method="get">
                             <div class="form-group">
                                 <label for="urlInput">Enter URL to check</label>
                                 <input type="url"
