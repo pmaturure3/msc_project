@@ -4,7 +4,6 @@
 {% load crispy_forms_tags %}
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -12,144 +11,126 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
-   
-<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">  -->
-    <!--Chart js-->
+    <!-- Chart js -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
-    integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+        integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
         integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
-        <!-- Include Datatables JS -->
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <title>Phishing Detection | {{ page_title }}
-    </title>
+    <title>Phishing Detection | {{ page_title }}</title>
+
+    <style>
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main_container_section {
+            flex: 1;
+        }
+
+        .nav_background {
+            background-color: #00A3E0;
+        }
+
+        .breadcrumb {
+            border-radius: 0;
+        }
+
+        .breadcrumb-bar {
+            background-color: purple !important;
+        }
+
+        .breadcrumb-bar a:hover {
+            color: #fff !important;
+        }
+
+        .top_logos .navbar-brand {
+            white-space: normal;
+            font-size: 1rem;
+            color: purple !important;
+            font-weight: 600;
+        }
+
+        .site-footer {
+            border-top: 1px solid #ddd;
+            padding: 15px 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 576px) {
+            .top_logos .navbar-brand {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
 </head>
 
-
-
-<style>
-
-.main_container_section{
-
-    min-height: 65vh;
-}
-
-
-</style>
 <body>
-   <div class="container top_logos">
-            <div class="row">
-                        <div class="col-3 mt-0">
-                
+    <div class="container-fluid px-3 px-md-5 top_logos">
+        <div class="row align-items-center py-2">
+            <div class="col-12">
                 <a class="navbar-brand" href="{% url 'index' %}">
-                    <span  style="color: purple !important;">Phishing Detection System |</span> 
-                </a> 
-             
-                     </div>
-                <div class="col-9 mt-1 text-left"> 
-
-                </div>
-        </div>   
-                
-
-               
-
-    </div>  
-
-
-    <div>
-        <nav class="navbar navbar-expand-lg navbar-light nav_background navbar_upper_case bread text-white">
-            <div class="container">
-                <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-
-                        <li class="nav-item has-mega-menu" style="position:static;">
-                            <a class="nav-link"  href="{% url 'index' %}" role="button" aria-haspopup="true" aria-expanded="false">Feature Input</a>
-                        </li>
-                   
-                        <!-- <li class="nav-item has-mega-menu" style="position:static;">
-                            <a class="nav-link" href="{% url 'result' %}" role="button" aria-haspopup="true" aria-expanded="false">Result</a>
-                        </li> -->
-                        <li class="nav-item has-mega-menu" style="position:static;">
-                            <a class="nav-link" href="#" role="button" aria-haspopup="true" aria-expanded="false">Registration</a>
-                        </li>
-                        <li class="nav-item has-mega-menu" style="position:static;">
-                            <a class="nav-link" href="#" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
-                        </li>
-                        <li class="nav-item has-mega-menu" style="position:static;">
-                            <a class="nav-link" href="https://github.com/pmaturure3/msc_project" role="button" aria-haspopup="true" aria-expanded="false" target="_blank">GitHub</a>
-                        </li>
-                    </ul>
-                </div>
+                    Phishing Detection System |
+                </a>
             </div>
-        </nav>
-
-    </div>
-
-
-    <!-- end  old Nav bar -->
-
-
-
-    <div class="">
-
-        <nav aria-label="breadcrumb" >
-            
-            <ol class="breadcrumb" style="background-color:purple !important ;">
-                <div class="container">
-                    <li class="breadcrumb-item " aria-current="page"><a href="/">Home</a> <span class="gt_size ">></span> 
-                        <span class="text-white">{{page_title}}</span></li>
-                    <!-- <li class="breadcrumb-item active" aria-current="page">
-                    </li> -->
-                </div>
-            </ol>
-
-        </nav>
-    </div>
-
-
-    <div class="container main_container_section">
-
-     
-        
-  
-        <div class="row">
-    
-            <div class="col-sm-12">
-
-                {% block body_block %}
-
-
-
-
-
-
-                {% endblock %}
-
-            </div>
-
         </div>
-
-   
     </div>
 
+    <nav class="navbar navbar-expand-lg navbar-dark nav_background px-3 px-md-5">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/pmaturure3/msc_project" target="_blank">GitHub</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0 breadcrumb-bar px-3 px-md-5">
+            <li class="breadcrumb-item" aria-current="page">
+                <a href="/" style="color: #ddd;">Home</a>
+                <span class="text-white mx-1">&gt;</span>
+                <span class="text-white font-weight-bold">{{ page_title }}</span>
+            </li>
+        </ol>
+    </nav>
 
-        <!-- <span class="footer" style="align-items: center !important;">Copyright &copy; <a href="{% url 'index' %}" style="color:purple !important">Phishing Detection System</a> {% now "Y" %}
-        </span>
-       -->
+    <div class="container main_container_section py-3">
+        <div class="row">
+            <div class="col-12">
+                {% block body_block %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+<hr>
+    <footer class="site-footer">
+        &copy; {% now "Y" %} Phishing Detection System
+    </footer>
 
-
-
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -157,29 +138,7 @@
         integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
         crossorigin="anonymous"></script>
 
-    <!-- <script src="{% static 'js/formset.js' %}"></script>
-    <script src="{% static 'js/jquery.dataTables.js' %}"></script>
-    <script src="{% static 'js/pagenate-tags.js' %}"></script> -->
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
-        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
-        crossorigin="anonymous"></script>
-
-
     {% block scripts %}
-
-
-
     {% endblock scripts %}
-
-
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
-    -->
 </body>
-
 </html>

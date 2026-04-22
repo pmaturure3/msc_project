@@ -4,13 +4,13 @@
 | | |
 |---|---|
 | **Programme** | MSc Cyber Security and Forensic Information Technology |
-| **School** | University of Portsmouth · School of Computing |
+| **School** | University of Portsmouth, School of Computing, United Kingdom |
 | **Project Title** | Hybrid Machine Learning Model for Phishing Detection |
 | **Year** | 2023/24 |
-| **Supervisor** | Dr Asim, Alexander Gegov |
+| **Supervisor** | Dr Asim Ali, Assoc Prof Alexander Gegov |
 | **Student** | Perceval Maturure |
-| **IEEE Profile** | [IEEE Profile](https://ieeexplore.ieee.org/author/911008059731948) |
-| **Project URL** | [phish-detect-01.dev.tp-stack.co.uk](https://phish-detect-01.dev.tp-stack.co.uk) |
+|**IEEE Conference Paper**| **Maturure, P**., Ali, A., & Gegov, A. (2024). **Hybrid machine learning model for phishing detection**. IEEE. [https://ieeexplore.ieee.org/document/10705257](https://ieeexplore.ieee.org/document/10705257) | 
+| **Project URL** | [phishing.tp-stack.co.uk](https://phishing.tp-stack.co.uk) |
 
 ---
 
@@ -26,26 +26,31 @@ Developed a Hybrid machine learning model for phishing detection.
 
 A web application that allows users to submit a URL and receive a real-time prediction of whether it is legitimate or phishing.
 
-**Technology:** Django 4, Python 3, SQLite Database
+**Technology:** Django 4, Python 3, Django, Docker, Docker Compose, SQLite Database
 
 ### How to Run Locally
 
 1. Clone the repository: `git clone <GitHub URL>`
-2. Create and activate a virtual environment:
-   ```
-   python3 -m venv env
-   cd env
-   source bin/activate
-   ```
-3. Install dependencies: `pip3 install -r requirements.txt`
-4. Run the server: `python3 manage.py runserver`
+2. cd into `\msc_project\`
+3. Build the images: `docker compose -f Docker-compose.yml build`
+4. Start the application: `docker compose -f Docker-compose.yml up -d`
 5. Visit `http://127.0.0.1:8000` in your browser
+
+## Useful Docker Commands
+
+- View running containers: `docker compose -f Docker-compose.yml ps`
+- View logs: `docker compose -f Docker-compose.yml logs -f`
+- Stop the application: `docker compose -f Docker-compose.yml down`
+- Rebuild and restart: `docker compose -f Docker-compose.yml up -d --build`
+- Remove all containers and volumes: `docker compose -f Docker-compose.yml down -v`
+- Restart a specific service: `docker compose -f Docker-compose.yml restart <service_name>`
+- Access a container shell: `docker compose -f Docker-compose.yml exec <service_name> bash`
 
 ---
 
 ## Changelog
 
-### Version 2.0 – Hybrid Voting Classifier (All 41 Features)
+### Version 2.0 (04-2026) – Hybrid Voting Classifier (All 41 Features)
 
 #### 1. New Hybrid Voting Model (`Phishing_Hybrid_Voting.ipynb`)
 

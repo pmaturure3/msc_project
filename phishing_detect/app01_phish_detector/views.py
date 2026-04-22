@@ -2,12 +2,11 @@ import os
 from django.shortcuts import render
 import joblib
 import numpy as np
-from .feature_extraction import extract_features  # extracts all 41 features from a URL
+from .feature_extraction import extract_features
+from .models import URLCheck
 
-# Build absolute paths to the .pkl files relative to this file's location
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Load the hybrid voting model, scaler, and feature names
 model = joblib.load(os.path.join(BASE_DIR, 'phishing_hybrid_voting_hard.pkl'))
 scaler = joblib.load(os.path.join(BASE_DIR, 'standard_scaler.pkl'))
 feature_names = joblib.load(os.path.join(BASE_DIR, 'feature_names.pkl'))
@@ -35,7 +34,6 @@ def result(request):
     # Check for any missing features before prediction
     missing = [f for f in feature_names if f not in features_dict]
     if missing:
-        # This helps you debug: add the missing features to feature_extraction.py
         print(f"WARNING: Missing features in extract_features(): {missing}")
         print(f"Available features: {sorted(features_dict.keys())}")
         print(f"Expected features: {feature_names}")
@@ -53,13 +51,16 @@ def result(request):
     # Predict using the loaded hybrid voting model
     ans = model.predict(features_scaled)[0]
 
+    # Save to database
+    URLCheck.objects.create(url=url, is_phishing=bool(ans))
+
     # Render the result page with the prediction
     return render(
         request,
         'app01_phish_detector/result.html',
         {
             'page_title': page_title,
-            'ans': ans,     # 1 = phishing, 0 = legitimate
+            'ans': ans,
             'url': url
         }
     )
