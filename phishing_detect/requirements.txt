@@ -13,8 +13,9 @@ pytz==2026.1.post1
 six==1.17.0
 typing_extensions==4.15.0
 django-crispy-forms==2.1
-
 # Production dependencies
 gunicorn==22.0.0
 psycopg2-binary==2.9.9
 psycopg
+mozilla-django-oidc
+python-dotenv
