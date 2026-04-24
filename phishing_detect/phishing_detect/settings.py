@@ -183,3 +183,6 @@ OIDC_RP_SCOPES = "openid email profile"
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+LOGIN_URL = '/oidc/authenticate/'
+
+OIDC_CREATE_USER = True
