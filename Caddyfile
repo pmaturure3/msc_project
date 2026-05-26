@@ -23,3 +23,18 @@ phishing.tp-stack.co.uk {
         format console
     }
 }
+
+# Keycloak IDM - accessible at https://idm.tp-stack.co.uk
+idm.tp-stack.co.uk {
+    tls internal
+    reverse_proxy keycloak:8080
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy strict-origin-when-cross-origin
+    }
+    encode gzip
+    log {
+        output stdout
+        format console
+    }
+}
