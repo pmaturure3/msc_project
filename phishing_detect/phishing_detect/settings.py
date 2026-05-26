@@ -181,7 +181,6 @@ OIDC_OP_LOGOUT_ENDPOINT = f"{KEYCLOAK_BASE_URL}/realms/{KEYCLOAK_REALM}/protocol
 
 OIDC_RP_SCOPES = "openid email profile"
 
-LOGIN_REDIRECT_URL = "/admin/"
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = '/oidc/authenticate/'
 
