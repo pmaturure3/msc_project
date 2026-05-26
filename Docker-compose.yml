@@ -17,42 +17,6 @@ services:
       timeout: 5s
       retries: 5
 
-  keycloak-db:
-    image: postgres:16
-    restart: always
-    volumes:
-      - keycloak_postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:23.0
-    restart: always
-    command: start-dev
-    environment:
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
-      KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_HOSTNAME_STRICT: false
-      KC_HOSTNAME_STRICT_HTTPS: false
-      KC_HTTP_ENABLED: true
-      KC_PROXY: edge
-    expose:
-      - "8080"
-    depends_on:
-      keycloak-db:
-        condition: service_healthy
-
   web:
     build:
       context: ./phishing_detect
@@ -66,8 +30,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      keycloak:
-        condition: service_started
     expose:
       - "8000"
     command: sh -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn phishing_detect.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120 --access-logfile - --error-logfile -"
@@ -86,11 +48,9 @@ services:
       - media_volume:/srv/media:ro
     depends_on:
       - web
-      - keycloak
 
 volumes:
   postgres_data:
-  keycloak_postgres_data:
   static_volume:
   media_volume:
   caddy_data:
