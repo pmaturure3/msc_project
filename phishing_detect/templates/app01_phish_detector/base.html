@@ -14,10 +14,7 @@
     <!-- Chart js -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
         integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-        integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <title>Phishing Detection | {{ page_title }}</title>
 
     <style>
@@ -98,9 +95,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Registration</a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item">
-             <a class="nav-link" href="{% url 'oidc_authentication_init' %}">Login</a>
+                    <a class="nav-link" href="{% url 'oidc_logout' %}">Logout ({{ user.username }})</a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'oidc_authentication_init' %}">Login</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="https://github.com/pmaturure3/msc_project" target="_blank">GitHub</a>
                 </li>
@@ -131,12 +134,13 @@
         &copy; {% now "Y" %} Phishing Detection System
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
+    <!-- Single jQuery load, then Bootstrap, then Chart.js -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+        integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
 
     {% block scripts %}
     {% endblock scripts %}
