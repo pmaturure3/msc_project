@@ -1,24 +1,9 @@
-"""
-Feature extraction module for phishing URL detection.
-Extracts ALL features from a URL to match the training dataset columns.
-
-Dataset: https://data.mendeley.com/datasets/6tm2d6sz7p/1
-Published: 7 June 2023 (0=legitimate, 1=phishing)
-
-IMPORTANT: This function returns a dictionary with every possible feature name
-from the dataset. If feature_names.pkl contains a key not listed here, you will
-get a KeyError. To debug, compare feature_names.pkl with the keys this function
-returns and add any missing features.
-"""
-
 import math
 import re
 from urllib.parse import urlparse
 from collections import Counter
 
-
 def _entropy(text):
-    """Calculate Shannon entropy of a string."""
     if not text:
         return 0.0
     counter = Counter(text)
@@ -26,144 +11,91 @@ def _entropy(text):
     entropy = -sum((count / length) * math.log2(count / length) for count in counter.values())
     return entropy
 
-
-def _count_char(text, char):
-    """Count occurrences of a character in text."""
-    return text.count(char)
-
-
-def _has_repeated_digits(text):
-    """Check if the text contains consecutive repeated digits (e.g., 11, 22, 333)."""
-    if not text:
+def _is_ip_address(hostname):
+    if not hostname:
         return 0
-    for i in range(len(text) - 1):
-        if text[i].isdigit() and text[i] == text[i + 1]:
-            return 1
+    pattern = r'^(\d{1,3}\.){3}\d{1,3}$'
+    if re.match(pattern, hostname):
+        parts = hostname.split('.')
+        return 1 if all(0 <= int(p) <= 255 for p in parts) else 0
     return 0
 
-
-def _count_digits(text):
-    """Count the number of digits in text."""
-    return sum(1 for c in text if c.isdigit())
-
-
-def _has_digits(text):
-    """Check if text contains any digits."""
-    return 1 if any(c.isdigit() for c in text) else 0
-
-
-def _count_special_chars(text):
-    """Count special characters (non-alphanumeric, excluding dots)."""
-    return sum(1 for c in text if not c.isalnum() and c != '.')
-
-
-def _get_subdomains(parsed_url):
-    """Extract subdomains from the hostname."""
-    hostname = parsed_url.hostname or ''
+def _get_tld(hostname):
+    if not hostname:
+        return ''
     parts = hostname.split('.')
-    # If we have domain.tld, there are no subdomains
-    # If we have sub.domain.tld, 'sub' is the subdomain
+    if len(parts) >= 3 and parts[-2] in ['co', 'com', 'org', 'net', 'gov', 'edu', 'ac']:
+        return '.'.join(parts[-2:])
+    return parts[-1] if parts else ''
+
+def _get_domain(hostname):
+    if not hostname:
+        return ''
+    parts = hostname.split('.')
+    if len(parts) <= 2:
+        return parts[-2] if len(parts) >= 2 else parts[0]
+    if len(parts) >= 3 and parts[-2] in ['co', 'com', 'org', 'net', 'gov', 'edu', 'ac']:
+        return parts[-3]
+    return parts[-2]
+
+def _get_subdomains(hostname):
+    if not hostname:
+        return []
+    parts = hostname.split('.')
     if len(parts) <= 2:
         return []
-    return parts[:-2]  # Everything except the main domain and TLD
-
+    if len(parts) >= 3 and parts[-2] in ['co', 'com', 'org', 'net', 'gov', 'edu', 'ac']:
+        return parts[:-2]
+    return parts[:-1]
 
 def extract_features(url):
-    """
-    Extract all features from a URL.
-    Returns a dictionary with feature names as keys.
-
-    The features match the columns in Dataset.csv (excluding the 'Type' column).
-    """
-
-    # Parse the URL
     parsed = urlparse(url if '://' in url else 'http://' + url)
-
     hostname = parsed.hostname or ''
     path = parsed.path or ''
     query = parsed.query or ''
-    fragment = parsed.fragment or ''
     full_url = url
+    scheme = parsed.scheme
 
-    # Extract domain (hostname without subdomains)
-    hostname_parts = hostname.split('.')
-    if len(hostname_parts) >= 2:
-        domain = '.'.join(hostname_parts[-2:])  # e.g., example.com
-    else:
-        domain = hostname
+    tld = _get_tld(hostname)
+    domain = _get_domain(hostname)
+    subdomains = _get_subdomains(hostname)
+    subdom_cnt = len(subdomains)
 
-    # Extract subdomains
-    subdomains = _get_subdomains(parsed)
-    number_of_subdomains = len(subdomains)
+    letter_cnt = sum(c.isalpha() for c in full_url)
+    digit_cnt = sum(c.isdigit() for c in full_url)
+    special_chars = '!@#$%^&*()_+={}[]|\\:;"\'<>,.?/~`'
+    special_cnt = sum(1 for c in full_url if c in special_chars)
 
-    # Subdomain-level statistics
-    subdomain_lengths = [len(s) for s in subdomains] if subdomains else [0]
-    subdomain_dots = [s.count('.') for s in subdomains] if subdomains else [0]
-    subdomain_hyphens = [s.count('-') for s in subdomains] if subdomains else [0]
-    full_subdomain = '.'.join(subdomains) if subdomains else ''
+    url_length = len(full_url)
+    letter_ratio = letter_cnt / url_length if url_length > 0 else 0
+    digit_ratio = digit_cnt / url_length if url_length > 0 else 0
+    spec_ratio = special_cnt / url_length if url_length > 0 else 0
 
-    # ========================
-    # EXTRACT ALL FEATURES
-    # ========================
-
-    features = {}
-
-    # --- URL-level features ---
-    features['url_length'] = len(full_url)
-    features['number_of_dots_in_url'] = _count_char(full_url, '.')
-    features['having_repeated_digits_in_url'] = _has_repeated_digits(full_url)
-    features['number_of_digits_in_url'] = _count_digits(full_url)
-    features['number_of_special_char_in_url'] = sum(1 for c in full_url if not c.isalnum() and c not in './-:_?=&#@')
-    features['number_of_hyphens_in_url'] = _count_char(full_url, '-')
-    features['number_of_underline_in_url'] = _count_char(full_url, '_')
-    features['number_of_slash_in_url'] = _count_char(full_url, '/')
-    features['number_of_questionmark_in_url'] = _count_char(full_url, '?')
-    features['number_of_equal_in_url'] = _count_char(full_url, '=')
-    features['number_of_at_in_url'] = _count_char(full_url, '@')
-    features['number_of_dollar_in_url'] = _count_char(full_url, '$')
-    features['number_of_exclamation_in_url'] = _count_char(full_url, '!')
-    features['number_of_hashtag_in_url'] = _count_char(full_url, '#')
-    features['number_of_percent_in_url'] = _count_char(full_url, '%')
-
-    # --- Domain-level features ---
-    features['domain_length'] = len(domain)
-    features['number_of_dots_in_domain'] = _count_char(domain, '.')
-    features['number_of_digits_in_domain'] = _count_digits(domain)
-    features['having_digits_in_domain'] = _has_digits(domain)
-    features['having_repeated_digits_in_domain'] = _has_repeated_digits(domain)
-    features['number_of_hyphens_in_domain'] = _count_char(domain, '-')
-    features['number_of_special_characters_in_domain'] = _count_special_chars(domain)
-    features['having_special_characters_in_domain'] = 1 if _count_special_chars(domain) > 0 else 0
-
-    # --- Subdomain-level features ---
-    features['number_of_subdomains'] = number_of_subdomains
-    features['having_dot_in_subdomain'] = 1 if '.' in full_subdomain else 0
-    features['having_hyphen_in_subdomain'] = 1 if '-' in full_subdomain else 0
-    features['average_subdomain_length'] = sum(subdomain_lengths) / len(subdomain_lengths) if subdomain_lengths else 0
-    features['average_number_of_dots_in_subdomain'] = sum(subdomain_dots) / len(subdomain_dots) if subdomain_dots else 0
-    features['average_number_of_hyphens_in_subdomain'] = sum(subdomain_hyphens) / len(subdomain_hyphens) if subdomain_hyphens else 0
-    features['having_special_characters_in_subdomain'] = 1 if any(not c.isalnum() and c not in '.-' for c in full_subdomain) else 0
-    features['number_of_special_characters_in_subdomain'] = sum(1 for c in full_subdomain if not c.isalnum() and c not in '.-')
-
-    # --- Subdomain digits features ---
-    features['number_of_digits_in_subdomain'] = _count_digits(full_subdomain)
-    features['having_digits_in_subdomain'] = _has_digits(full_subdomain)
-    features['having_repeated_digits_in_subdomain'] = _has_repeated_digits(full_subdomain)
-
-    # --- Path, query, fragment, anchor features ---
-    features['having_path'] = 1 if path and path != '/' else 0
-    features['path_length'] = len(path)
-    features['having_query'] = 1 if query else 0
-    features['having_fragment'] = 1 if fragment else 0
-    features['having_anchor'] = 1 if '#' in full_url else 0
-
-    # --- Entropy features ---
-    features['entropy_of_url'] = _entropy(full_url)
-    features['entropy_of_domain'] = _entropy(domain)
-
-    # --- Hostname-level features (in case dataset uses hostname instead of domain) ---
-    features['hostname_length'] = len(hostname)
-    features['number_of_dots_in_hostname'] = _count_char(hostname, '.')
-    features['number_of_hyphens_in_hostname'] = _count_char(hostname, '-')
+    features = {
+        'url_len': url_length,
+        'dom': domain,
+        'dom_len': len(domain),
+        'is_ip': _is_ip_address(hostname),
+        'tld': tld,
+        'tld_len': len(tld),
+        'subdom_cnt': subdom_cnt,
+        'letter_cnt': letter_cnt,
+        'digit_cnt': digit_cnt,
+        'special_cnt': special_cnt,
+        'eq_cnt': full_url.count('='),
+        'qm_cnt': full_url.count('?'),
+        'amp_cnt': full_url.count('&'),
+        'dot_cnt': full_url.count('.'),
+        'dash_cnt': full_url.count('-'),
+        'under_cnt': full_url.count('_'),
+        'letter_ratio': letter_ratio,
+        'digit_ratio': digit_ratio,
+        'spec_ratio': spec_ratio,
+        'is_https': 1 if scheme == 'https' else 0,
+        'slash_cnt': full_url.count('/'),
+        'entropy': _entropy(full_url),
+        'path_len': len(path),
+        'query_len': len(query),
+    }
 
     return features
