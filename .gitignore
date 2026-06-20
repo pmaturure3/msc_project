@@ -54,3 +54,6 @@ Thumbs.db
 # Docker
 # ──────────────────────────────────────────────
 postgres_data/
+datasets-latest/
+*.csv
+*.pkl
