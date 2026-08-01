@@ -22,17 +22,26 @@ RUN apt-get update \
 # Upgrade pip
 RUN pip install --upgrade pip
 
-# Copy requirements first (better docker caching)
+# Copy requirements first for Docker cache optimisation
 COPY requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project
+# Copy Django project
 COPY . .
 
-# Create static and media directories
+# Create required directories
 RUN mkdir -p /app/staticfiles /app/media
 
-# Expose gunicorn port
+# Copy startup script
+COPY run.sh /app/run.sh
+
+# Make startup script executable
+RUN chmod +x /app/run.sh
+
+# Expose Gunicorn port
 EXPOSE 8000
+
+# Start Django through entrypoint
+ENTRYPOINT ["/app/run.sh"]

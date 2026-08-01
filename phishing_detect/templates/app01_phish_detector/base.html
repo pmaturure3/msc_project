@@ -103,11 +103,11 @@
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'oidc_logout' %}">Logout ({{ user.username }})</a>
+                    <a class="nav-link" href="#">Logout ({{ user.username }})</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'oidc_authentication_init' %}">Login</a>
+                    <a class="nav-link" href="#">Login</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
