@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+# Run passed commands directly
+if [ $# -gt 0 ]; then
+    exec "$@"
+fi
+
 echo "Applying database migrations..."
 python manage.py migrate --noinput
 
