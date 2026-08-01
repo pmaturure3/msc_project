@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app01_phish_detector',
     'crispy_forms',
-    'mozilla_django_oidc',
+   
 ]
 
 MIDDLEWARE = [
@@ -162,7 +162,7 @@ if not DEBUG:
 #Keycloak
 
 AUTHENTICATION_BACKENDS = [
-    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+  
     'django.contrib.auth.backends.ModelBackend',  # keep Django login as fallback
 ]
 # Keycloak OIDC
