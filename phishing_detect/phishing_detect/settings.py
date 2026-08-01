@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-only-change-in-production')
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
@@ -166,23 +166,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # keep Django login as fallback
 ]
 # Keycloak OIDC
-KEYCLOAK_BASE_URL = os.getenv("KEYCLOAK_BASE_URL")
-KEYCLOAK_REALM = os.getenv("KEYCLOAK_REALM")
 
-OIDC_RP_CLIENT_ID = os.getenv("OIDC_RP_CLIENT_ID")
-OIDC_RP_CLIENT_SECRET = os.getenv("OIDC_RP_CLIENT_SECRET")
-OIDC_RP_SIGN_ALGO = "RS256"
 
-OIDC_OP_AUTHORIZATION_ENDPOINT = f"{KEYCLOAK_BASE_URL}/realms/{KEYCLOAK_REALM}/protocol/openid-connect/auth"
-OIDC_OP_TOKEN_ENDPOINT = f"{KEYCLOAK_BASE_URL}/realms/{KEYCLOAK_REALM}/protocol/openid-connect/token"
-OIDC_OP_USER_ENDPOINT = f"{KEYCLOAK_BASE_URL}/realms/{KEYCLOAK_REALM}/protocol/openid-connect/userinfo"
-OIDC_OP_JWKS_ENDPOINT = f"{KEYCLOAK_BASE_URL}/realms/{KEYCLOAK_REALM}/protocol/openid-connect/certs"
-OIDC_OP_LOGOUT_ENDPOINT = f"{KEYCLOAK_BASE_URL}/realms/{KEYCLOAK_REALM}/protocol/openid-connect/logout"
-
-OIDC_RP_SCOPES = "openid email profile"
-
-LOGOUT_REDIRECT_URL = "/"
-LOGIN_URL = '/oidc/authenticate/'
-
-OIDC_CREATE_USER = True
 
