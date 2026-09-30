@@ -1,7 +1,6 @@
-version: "3.8"
 services:
   db:
-    image: postgres:16
+    image: docker.io/library/postgres:16
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -35,13 +34,13 @@ services:
     command: sh -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn phishing_detect.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120 --access-logfile - --error-logfile -"
 
   caddy:
-    image: caddy:2-alpine
+    image: docker.io/library/caddy:2-alpine
     restart: always
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro,Z
       - caddy_data:/data
       - caddy_config:/config
       - static_volume:/srv/staticfiles:ro
