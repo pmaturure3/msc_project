@@ -171,7 +171,6 @@ sudo dnf install -y podman-docker && sudo touch /etc/containers/nodocker
 The initial version used only 13 features selected from feature importance analysis. This caused **false positives** where legitimate URLs (e.g., `amazon.co.uk`) were incorrectly flagged as phishing. Switching to all 41 features provided the model with richer contextual information, reducing misclassifications and improving overall prediction reliability.
 
 ---
-
 ## Resources
 
 ### Dataset
