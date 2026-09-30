@@ -20,7 +20,7 @@ from django.urls import re_path as url
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('accounts/admin/', admin.site.urls),
     path('', include('app01_phish_detector.urls')),
    
 ]
