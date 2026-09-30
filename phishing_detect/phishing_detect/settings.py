@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app01_phish_detector',
     'crispy_forms',
+    
    
 ]
 

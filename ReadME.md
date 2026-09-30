@@ -28,29 +28,88 @@ Developed a Hybrid machine learning model for phishing detection.
 
 A web application that allows users to submit a URL and receive a real-time prediction of whether it is legitimate or phishing.
 
-**Technology:** Django 4, Python 3, Docker, Docker Compose, PostgreSQL Database
+**Technology:** Django 4, Python 3, Podman, Podman Compose, PostgreSQL Database, Caddy
+
+> The Compose file is standard Compose format, so it still runs under Docker Compose too. Swap `podman compose` for `docker compose` in any command below.
+
+### Prerequisites (AlmaLinux / RHEL 8–9)
+
+```bash
+sudo dnf install -y podman container-selinux netavark aardvark-dns
+
+# Compose provider: `podman compose` uses the docker-compose binary
+# (docker-compose-plugin) against the Podman socket. Keep this package
+# installed even after Docker Engine is removed.
+rpm -q docker-compose-plugin
+# Alternative provider: sudo dnf install -y epel-release podman-compose  (1.1+ required)
+
+# Docker-compatible API socket and restart of containers at boot
+sudo systemctl enable --now podman.socket
+sudo systemctl enable podman-restart.service
+
+# Optional: the docker command runs podman instead
+sudo dnf install -y podman-docker && sudo touch /etc/containers/nodocker
+```
 
 ### How to Run Locally
 
 1. Clone the repository: `git clone <GitHub URL>`
 2. cd into `msc_project/`
-3. Build the images: `docker compose -f Docker-compose.yml build`
-4. Start the application: `docker compose -f Docker-compose.yml up -d`
-5. Visit `http://127.0.0.1:8000` in your browser
+3. Build the images: `podman compose -f Docker-compose.yml build`
+4. Start the application: `podman compose -f Docker-compose.yml up -d`
+5. Check all three services are up: `podman compose -f Docker-compose.yml ps` (`db`, `web`, `caddy`)
+6. Visit the site through Caddy on ports 80/443, at the domain set in `Caddyfile` ([phishing.tp-stack.co.uk](https://phishing.tp-stack.co.uk) in production). The `web` container only exposes port 8000 to the internal network, so `http://127.0.0.1:8000` isn't reachable from the host.
 
-## Useful Docker Commands
+## Useful Podman Commands
 
-- View running containers: `docker compose -f Docker-compose.yml ps`
-- View logs: `docker compose -f Docker-compose.yml logs -f`
-- Stop the application: `docker compose -f Docker-compose.yml down`
-- Rebuild and restart: `docker compose -f Docker-compose.yml up -d --build`
-- Remove all containers and volumes: `docker compose -f Docker-compose.yml down -v`
-- Restart a specific service: `docker compose -f Docker-compose.yml restart <service_name>`
-- Access a container shell: `docker compose -f Docker-compose.yml exec <service_name> bash`
+- View running containers: `podman compose -f Docker-compose.yml ps` (or `podman ps`)
+- View logs: `podman compose -f Docker-compose.yml logs -f`
+- Stop the application: `podman compose -f Docker-compose.yml down`
+- Rebuild and restart: `podman compose -f Docker-compose.yml up -d --build`
+- Remove all containers and volumes: `podman compose -f Docker-compose.yml down -v`
+- Restart a specific service: `podman compose -f Docker-compose.yml restart <service_name>`
+- Access a container shell: `podman compose -f Docker-compose.yml exec <service_name> bash`
+- List images / volumes: `podman images` / `podman volume ls`
+- Clean up unused images and containers: `podman system prune`
+
+## Podman Notes
+
+- **SELinux:** the only bind mount, `./Caddyfile:/etc/caddy/Caddyfile:ro,Z`, carries the `Z` flag so Caddy can read the file under SELinux enforcing mode. All other mounts are named volumes, which Podman labels automatically. Any new bind mount needs `:Z` as well.
+- **Restart on boot:** Podman has no daemon. All services use `restart: always` and are started at boot by `podman-restart.service`.
+- **Healthcheck ordering:** `web` waits for `db` to be healthy (`depends_on: condition: service_healthy`). Use the docker-compose provider or podman-compose 1.1+, because older podman-compose versions don't honour this.
+- **Slow first build:** when Compose builds through the Podman socket it may show only `Sending build context...` until the build finishes. It hasn't hung. Use `journalctl -u podman -f` to watch progress.
+- **Compose provider message:** `>>>> Executing external compose provider ... <<<<` is informational. Hide it with:
+  ```bash
+  sudo mkdir -p /etc/containers/containers.conf.d
+  printf '[engine]\ncompose_warning_logs = false\n' | sudo tee /etc/containers/containers.conf.d/compose.conf
+  ```
+- **Image names:** images are fully qualified (`docker.io/library/postgres:16`), so pulls work without relying on Podman's short-name resolution.
 
 ---
 
 ## Changelog
+
+### Version 3.1 (09-2026) – Migration from Docker to Podman
+
+#### 1. Container Runtime
+- Migrated the production deployment on AlmaLinux from **Docker Engine** to **rootful Podman** (daemonless, SELinux-integrated, Red Hat-supported runtime).
+- Enabled `podman.socket` for the Docker-compatible API and `podman-restart.service` so containers start automatically at boot.
+- Networking now uses Podman's **netavark** and **aardvark-dns** for container-to-container name resolution between Django, PostgreSQL and Caddy.
+
+#### 2. Compose Tooling
+- Replaced `docker compose` with `podman compose`, keeping the project compatible with Docker for local development.
+- `Docker-compose.yml` changes: removed the obsolete `version:` key, added the SELinux `Z` label to the Caddyfile bind mount, and fully qualified the image names (`docker.io/library/...`).
+- Images are rebuilt from the Dockerfiles in the repository. No data needed migrating from Docker volumes.
+
+#### 3. Documentation
+- Updated the setup, run and command reference sections for Podman, and added AlmaLinux prerequisites and Podman-specific notes (SELinux, restart policy, healthcheck ordering, build output).
+- Corrected the access instructions: the app is served through Caddy on ports 80/443, not directly on port 8000.
+
+#### 4. Docker Engine Removal
+- Disabled and removed `docker-ce`, `docker-ce-cli`, `containerd.io` and `docker-buildx-plugin`, keeping `docker-compose-plugin` as the Compose provider for `podman compose`.
+- Optionally installed `podman-docker` so the `docker` command runs Podman.
+
+---
 
 ### Version 3.0 (06-2026) – New Dataset & Enhanced Deployment
 
@@ -118,6 +177,10 @@ The initial version used only 13 features selected from feature importance analy
 ### Dataset
 - **URL-Phish Dataset**: [https://data.mendeley.com/datasets/65z9twcx3r/2](https://data.mendeley.com/datasets/65z9twcx3r/2)
 - **Original Dataset (2023)**: [https://data.mendeley.com/datasets/6tm2d6sz7p/1](https://data.mendeley.com/datasets/6tm2d6sz7p/1)
+
+### Container Tooling
+- [Podman Documentation](https://docs.podman.io)
+- [podman-compose](https://github.com/containers/podman-compose)
 
 ### Tutorials
 - [Django Tutorial – Tech with Tim](https://www.youtube.com/watch?v=uu98pqiUJU8&list=PLEsfXFp6DpzTD1BD1aWNxS2Ep06vIkaeW)
