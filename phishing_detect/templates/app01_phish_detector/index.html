@@ -7,11 +7,16 @@
         <form action="{% url 'result' %}" method="get">
             <div class="form-group">
                 <label for="urlInput">Enter URL to check</label>
-                <input type="url"
+                <input type="text"
+                       inputmode="url"
                        id="urlInput"
                        class="form-control"
                        name="url"
-                       placeholder="https://example.com"
+                       placeholder="https://example.com or example.com"
+                       maxlength="2048"
+                       autocomplete="off"
+                       autocapitalize="off"
+                       spellcheck="false"
                        required>
             </div>
             <div class="text-center mt-3">
@@ -20,8 +25,8 @@
             </div>
         </form>
 
-        <div class="text-muted small">
-            <h6 class="fw-bold mb-2">Disclaimer</h6>
+        <div class="text-muted small mt-4">
+            <h6 class="font-weight-bold mb-2">Disclaimer</h6>
             <p>
                 This tool is provided for <strong>educational and awareness purposes only</strong>.
                 It is designed to help users identify and understand phishing techniques in a
@@ -29,7 +34,7 @@
                 limited to unauthorized access to systems, harvesting credentials, or targeting
                 individuals or organizations without explicit written consent.
             </p>
-            <h6 class="fw-bold mb-2 mt-3">Data &amp; Model Accuracy</h6>
+            <h6 class="font-weight-bold mb-2 mt-3">Data &amp; Model Accuracy</h6>
             <p>
                 The underlying model has been trained on publicly available datasets, including the
                 <a href="https://data.mendeley.com/datasets/65z9twcx3r/1" target="_blank">

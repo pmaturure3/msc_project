@@ -82,7 +82,7 @@
         <div class="row align-items-center py-2">
             <div class="col-12">
                 <a class="navbar-brand" href="{% url 'index' %}">
-                    Phishing Detection System |
+                    Phishing Detection System
                 </a>
             </div>
         </div>
@@ -95,23 +95,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
+                <li class="nav-item{% if request.resolver_match.url_name == 'index' %} active{% endif %}">
                     <a class="nav-link" href="{% url 'index' %}">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Registration</a>
+                <li class="nav-item{% if request.resolver_match.url_name == 'about' %} active{% endif %}">
+                    <a class="nav-link" href="{% url 'about' %}">About the model</a>
                 </li>
-                {% if user.is_authenticated %}
+                {% comment %}
+                Registration / Login links removed: they pointed to "#". Restore them once the
+                matching URLs exist, e.g. <a class="nav-link" href="{% url 'oidc_authentication_init' %}">Login</a>
+                {% endcomment %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logout ({{ user.username }})</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
-                </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="https://github.com/pmaturure3/msc_project" target="_blank">GitHub</a>
+                    <a class="nav-link" href="https://github.com/pmaturure3/msc_project" target="_blank" rel="noopener noreferrer">GitHub</a>
                 </li>
             </ul>
         </div>
