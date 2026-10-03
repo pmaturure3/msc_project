@@ -1,0 +1,42 @@
+{
+  "model_name": "Soft Voting",
+  "threshold": 0.6557333283655633,
+  "feature_names": [
+    "url_len",
+    "dom_len",
+    "is_ip",
+    "tld_len",
+    "subdom_cnt",
+    "letter_cnt",
+    "digit_cnt",
+    "special_cnt",
+    "eq_cnt",
+    "qm_cnt",
+    "amp_cnt",
+    "dot_cnt",
+    "dash_cnt",
+    "under_cnt",
+    "letter_ratio",
+    "digit_ratio",
+    "spec_ratio",
+    "is_https",
+    "slash_cnt",
+    "entropy",
+    "path_len",
+    "query_len"
+  ],
+  "feature_version": "2.0",
+  "sklearn_version": "1.8.0",
+  "trained_at": "2026-10-03T09:19:06",
+  "split": "StratifiedGroupKFold by registered domain, 64/16/20 train/val/test",
+  "test_metrics": {
+    "Phish precision": 0.9121730707135938,
+    "Phish recall": 0.851416515973478,
+    "Phish F1": 0.8807482462977396,
+    "Balanced acc": 0.9188148523402289,
+    "MCC": 0.8621855596782031,
+    "PR-AUC": 0.9336145658767953,
+    "ROC-AUC": 0.9833083214262113,
+    "Accuracy": 0.9668069596910661
+  }
+}

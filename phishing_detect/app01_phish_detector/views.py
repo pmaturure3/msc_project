@@ -1,68 +1,125 @@
+import logging
 import os
-from django.shortcuts import render
+
 import joblib
 import numpy as np
 from django.conf import settings
-from .feature_extraction import extract_features
+from django.shortcuts import render
+
+from .feature_extraction import (
+    FEATURE_NAMES,
+    FEATURE_VERSION,
+    features_vector,
+    normalise_url,
+)
 from .models import URLCheck
 
-BASE_DIR = settings.BASE_DIR
-MODEL_DIR = os.path.join(BASE_DIR, 'app01_phish_detector', 'trained_models')
+logger = logging.getLogger(__name__)
 
-model = joblib.load(os.path.join(MODEL_DIR, 'phishing_hybrid_soft.pkl'))
-scaler = joblib.load(os.path.join(MODEL_DIR, 'scaler.pkl'))
-feature_names = joblib.load(os.path.join(MODEL_DIR, 'feature_names.pkl'))
+MODEL_PATH = os.path.join(
+    settings.BASE_DIR, 'app01_phish_detector', 'trained_models', 'phishing_model.pkl'
+)
+TEMPLATE_RESULT = 'app01_phish_detector/result.html'
+
+
+def _load_bundle(path):
+    """Load the bundle saved by the notebook and refuse to start if it doesn't match this code."""
+    bundle = joblib.load(path)
+    if not isinstance(bundle, dict) or 'model' not in bundle:
+        raise RuntimeError(
+            f"{path} is not a deployment bundle. Re-run the notebook and copy "
+            "deploy/app01_phish_detector/trained_models/phishing_model.pkl here "
+            "(models from the old notebook are not compatible)."
+        )
+    if bundle['feature_version'] != FEATURE_VERSION:
+        raise RuntimeError(
+            f"Model was trained with feature_extraction v{bundle['feature_version']}, "
+            f"app has v{FEATURE_VERSION}. Copy the same feature_extraction.py used in training."
+        )
+    if list(bundle['feature_names']) != list(FEATURE_NAMES):
+        raise RuntimeError("Feature names/order differ between the model and feature_extraction.py.")
+    return bundle
+
+
+BUNDLE = _load_bundle(MODEL_PATH)
+MODEL = BUNDLE['model']
+MODEL_NAME = BUNDLE['model_name']
+# Threshold chosen on the validation set in the notebook; override in settings.py if needed.
+THRESHOLD = float(getattr(settings, 'PHISHING_THRESHOLD', BUNDLE['threshold']))
+
+logger.info("Loaded phishing model %s (threshold %.3f, features v%s)",
+            MODEL_NAME, THRESHOLD, FEATURE_VERSION)
+
 
 def index(request):
-    page_title = "Home"
-    return render(request, 'app01_phish_detector/index.html', {'page_title': page_title})
+    return render(request, 'app01_phish_detector/index.html', {'page_title': 'Home'})
+
 
 def about(request):
-    page_title = "About"
-    return render(request, 'app01_phish_detector/about.html', {'page_title': page_title})
+    return render(request, 'app01_phish_detector/about.html', {
+        'page_title': 'About',
+        'model_name': MODEL_NAME,
+        'threshold': THRESHOLD,
+        'test_metrics': BUNDLE.get('test_metrics', {}),
+    })
+
 
 def result(request):
-    page_title = "Result"
-    url = request.GET.get('url', '')
+    page_title = 'Result'
+    raw_url = request.GET.get('url', '').strip()
 
-    if not url:
-        return render(request, 'app01_phish_detector/result.html', {
+    if not raw_url:
+        return render(request, TEMPLATE_RESULT, {
             'page_title': page_title,
-            'error': 'No URL provided'
+            'error': 'No URL provided.',
         })
 
+    # 1. Normalise + extract features (same code path as training)
     try:
-        features_dict = extract_features(url)
-        missing = [f for f in feature_names if f not in features_dict]
-        if missing:
-            raise KeyError(f"Missing features: {missing}")
-
-        features = [features_dict[feat] for feat in feature_names]
-        features_array = np.array(features).reshape(1, -1)
-        features_scaled = scaler.transform(features_array)
-
-        ans = model.predict(features_scaled)[0]
-        probabilities = model.predict_proba(features_scaled)[0]
-        prob_legitimate = probabilities[0]
-        prob_phishing = probabilities[1]
-
-        URLCheck.objects.create(
-            url=url,
-            is_phishing=bool(ans),
-            probability_legitimate=prob_legitimate,
-            probability_phishing=prob_phishing
-        )
-
-        return render(request, 'app01_phish_detector/result.html', {
+        url = normalise_url(raw_url)
+        x = np.array([features_vector(url)], dtype=float)
+    except ValueError as e:
+        return render(request, TEMPLATE_RESULT, {
             'page_title': page_title,
-            'ans': ans,
+            'error': f'Invalid URL: {e}',
+            'url': raw_url,
+        })
+    except Exception:
+        logger.exception("Feature extraction failed for %r", raw_url)
+        return render(request, TEMPLATE_RESULT, {
+            'page_title': page_title,
+            'error': 'Could not analyse that URL.',
+            'url': raw_url,
+        })
+
+    # 2. Predict with the tuned threshold (not model.predict(), which uses 0.5)
+    try:
+        prob_legitimate, prob_phishing = (float(p) for p in MODEL.predict_proba(x)[0])
+    except Exception:
+        logger.exception("Prediction failed for %r", url)
+        return render(request, TEMPLATE_RESULT, {
+            'page_title': page_title,
+            'error': 'Prediction failed. See server logs.',
             'url': url,
-            'prob_legitimate': prob_legitimate,
-            'prob_phishing': prob_phishing
         })
-    except Exception as e:
-        return render(request, 'app01_phish_detector/result.html', {
-            'page_title': page_title,
-            'error': str(e),
-            'url': url
-        })
+
+    is_phishing = prob_phishing >= THRESHOLD
+    logger.debug("url=%s p_phish=%.4f threshold=%.3f features=%s",
+                 url, prob_phishing, THRESHOLD, dict(zip(FEATURE_NAMES, x[0])))
+
+    URLCheck.objects.create(
+        url=url,
+        is_phishing=is_phishing,
+        probability_legitimate=prob_legitimate,
+        probability_phishing=prob_phishing,
+    )
+
+    return render(request, TEMPLATE_RESULT, {
+        'page_title': page_title,
+        'ans': int(is_phishing),
+        'url': url,
+        'prob_legitimate': prob_legitimate,
+        'prob_phishing': prob_phishing,
+        'threshold': THRESHOLD,
+        'model_name': MODEL_NAME,
+    })

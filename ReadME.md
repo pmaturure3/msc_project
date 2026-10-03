@@ -50,7 +50,6 @@ sudo systemctl enable podman-restart.service
 # Optional: the docker command runs podman instead
 sudo dnf install -y podman-docker && sudo touch /etc/containers/nodocker
 ```
-
 ### How to Run Locally
 
 1. Clone the repository: `git clone <GitHub URL>`
