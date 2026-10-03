@@ -2,12 +2,14 @@ Django==5.2.15
 asgiref==3.8.1
 sqlparse==0.5.0
 tzdata==2025.3
-numpy==2.0.2
+# ML stack: keep these matched to the notebook environment that trained the model
+numpy==2.4.4
 pandas==2.3.3
-scipy==1.13.1
+scipy==1.16.3
 scikit-learn==1.8.0
 joblib==1.5.3
 threadpoolctl==3.6.0
+tldextract==5.3.0
 python-dateutil==2.9.0.post0
 pytz==2026.1.post1
 six==1.17.0
