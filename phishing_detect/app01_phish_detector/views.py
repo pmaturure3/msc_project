@@ -55,12 +55,38 @@ def index(request):
     return render(request, 'app01_phish_detector/index.html', {'page_title': 'Home'})
 
 
+METRIC_LABELS = [
+    ('Phish precision', 'Precision (phishing)', 'Of the URLs flagged as phishing, the share that really were phishing.'),
+    ('Phish recall', 'Recall (phishing)', 'Of the real phishing URLs, the share the model caught.'),
+    ('Phish F1', 'F1-score (phishing)', 'Balance of precision and recall for the phishing class.'),
+    ('MCC', 'Matthews correlation', 'Overall quality on imbalanced data (1 = perfect, 0 = random).'),
+    ('PR-AUC', 'PR-AUC', 'Ranking quality across all thresholds, focused on phishing.'),
+    ('Balanced acc', 'Balanced accuracy', 'Average of the accuracy on each class.'),
+    ('Accuracy', 'Accuracy', 'Share of all URLs classified correctly (inflated by class imbalance).'),
+]
+
+
 def about(request):
+    test_metrics = BUNDLE.get('test_metrics', {}) or {}
+    metrics = []
+    for key, label, help_text in METRIC_LABELS:
+        value = test_metrics.get(key)
+        if value is not None:
+            metrics.append({
+                'label': label,
+                'help': help_text,
+                'value': value,
+                'percent': round(max(0.0, min(1.0, value)) * 100, 1),
+            })
     return render(request, 'app01_phish_detector/about.html', {
         'page_title': 'About',
         'model_name': MODEL_NAME,
         'threshold': THRESHOLD,
-        'test_metrics': BUNDLE.get('test_metrics', {}),
+        'metrics': metrics,
+        'trained_at': BUNDLE.get('trained_at', ''),
+        'split': BUNDLE.get('split', ''),
+        'n_features': len(FEATURE_NAMES),
+        'feature_names': FEATURE_NAMES,
     })
 
 
